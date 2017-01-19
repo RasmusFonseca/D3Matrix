@@ -20,12 +20,20 @@
     </section>
 
     <section class="main-content">
-      <h1 id="d3matrix">D3Matrix</h1>
 
-<p>Display matrices with D3</p>
-
-<p>Very fancy</p>
-
+      <h1>Input</h1>
+      <p>Paste a tab/space/semicolon-separated matrix into the textfield below:</p>
+      <textarea rows="10" cols="80" id="inputArea">
+0.0 0.1 0.1 0.2
+0.1 0.3 0.1 0.1
+0.4 0.1 0.2 0.1
+      </textarea>
+      
+      <h1>Output</h1>
+      <p>View the matrix rendered as svg:</p>
+      <script language="javascript">
+        initD3Matrix("inputArea", 800, 600 );
+      </script>
 
 
 
