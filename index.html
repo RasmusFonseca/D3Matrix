@@ -66,7 +66,7 @@
         <input id="minColorInput" class="jscolor" value="#4A569D">
         <script language="javascript">
           d3.select("#minColorInput")
-            .on("input", function(){ 
+            .on("change", function(){ 
               var minColVal = this.value;
               d3m.minCol = "#"+minColVal;
               d3m.update();
@@ -80,7 +80,7 @@
         <input id="maxColorInput" class="jscolor" value="#DC2424">
         <script language="javascript">
           d3.select("#maxColorInput")
-            .on("input", function(){ 
+            .on("change", function(){ 
               var maxColVal = this.value;
               d3m.maxCol = "#"+maxColVal;
               d3m.update();
