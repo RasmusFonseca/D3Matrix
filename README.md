@@ -2,7 +2,7 @@
 
 D3Matrix is a very small javascript library for taking a tab/comma/space separated file (.tsv/.csv/.txt) and illustrating using colors to indicate value (blue is negative, red is positive) and circle-sizes to indicate absolute value (values of 0 become points; non-zero values have larger radius).
 
-A [minimal working page](minimal.html) could look like this:
+A [minimal working example](minimal.html) could look like this:
 
 ```html
 <html>

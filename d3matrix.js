@@ -1,11 +1,11 @@
 
-function initD3Matrix(inputId, canvasDivId, width){
+function initD3Matrix(canvasDivId, width){
   var d3m = { 
     width   : width, 
     height  : 0,
-    minCol  : "#0000FF",
+    minCol  : "#4A569D",
     midCol  : "white",
-    maxCol  : "#FF0000",
+    maxCol  : "#DC2424",
     midOff  : 0.5,
     svg     : d3.select("#"+canvasDivId).append("svg"),
 
@@ -41,11 +41,8 @@ function initD3Matrix(inputId, canvasDivId, width){
 
       var minVal = d3.min(data1d, function(d){ return d["val"]; });
       var maxVal = d3.max(data1d, function(d){ return d["val"]; });
-      //var colScale = d3
-      //  .scaleLinear()
-      //  .domain([minVal, (minVal+maxVal)/2, maxVal])
-      //  .range([d3m.minCol, d3m.midCol, d3m.maxCol]);
       var absMax = Math.max(-minVal, maxVal);
+
       var tmpScale = d3.scaleLinear().domain([-1, 0, 1]).range([d3m.minCol, d3m.midCol, d3m.maxCol]);
       var colScale = d3
         .scaleLinear()
@@ -87,21 +84,6 @@ function initD3Matrix(inputId, canvasDivId, width){
     }
   };
 
-
-  d3.select("#"+inputId)
-    .on("input", function(){ 
-      var rawData = d3.select("#"+inputId).node().value;
-      d3m.update(rawData);
-    });
-
-  d3.select(window)
-    .on("load", function(){ 
-      var rawData = d3.select("#"+inputId).node().value;
-      d3m.update(rawData);
-     });
   
-  //var rawData = d3.select("#"+inputId).node().value;
-  //d3m.setData(rawData);
-
   return d3m;
 }

@@ -36,15 +36,34 @@
 -0.05 0.21 0.16 -0.07 -0.22 -0.33 0.04 -0.19 0.40 0.09
 -0.19 0.05 -0.48 0.44 -0.45 0.41 -0.48 -0.46 -0.02 -0.15
 -0.15 -0.45 0.39 -0.02 0.15 -0.15 -0.34 -0.30 -0.21 -0.05</textarea>
-<!--0.0 0.1 0.1 0.2
-0.1 0.3 0.1 0.1
-0.4 0.1 0.2 0.1</textarea>-->
       
       <h3>View the matrix rendered as svg:</h3>
       <div id="canvasDiv"></div>
       <script language="javascript">
-        var d3m = initD3Matrix("inputArea", "canvasDiv", 800 );
+        var d3m = initD3Matrix("canvasDiv", 800 );
+
+        d3.select("#inputArea")
+          .on("input", function(){ 
+            var rawData = d3.select("#inputArea").node().value;
+            d3m.update(rawData);
+          });
+
+        d3.select(window)
+          .on("load", function(){ 
+            var rawData = d3.select("#inputArea").node().value;
+            d3m.update(rawData);
+           });
       </script>
+
+      <a id="downloadButton" href-lang='image/svg+xml' href='' download>Download SVG</a>
+      <script language="javascript">
+        d3.select("#downloadButton")
+          .on("mouseover", function(){
+            var svgString = d3m.svg.node().parentNode.innerHTML;
+            this.href="data:image/svg+xml;utf-8,"+svgString;
+          });
+      </script>
+
       
       <h3>Advanced settings:</h3>
       <p>
@@ -63,7 +82,7 @@
 
       <p>
         <label for="minColorInput">Min. color</label>
-        <input id="minColorInput" class="jscolor" value="#4A569D">
+        <input id="minColorInput" class="jscolor" value="#4A569D" style="width:100px">
         <script language="javascript">
           d3.select("#minColorInput")
             .on("change", function(){ 
@@ -77,7 +96,7 @@
 
       <p>
         <label for="maxColorInput">Max. color</label>
-        <input id="maxColorInput" class="jscolor" value="#DC2424">
+        <input id="maxColorInput" class="jscolor" value="#DC2424" style="width:100px">
         <script language="javascript">
           d3.select("#maxColorInput")
             .on("change", function(){ 
