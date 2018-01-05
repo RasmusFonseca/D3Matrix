@@ -19,3 +19,5 @@ A [minimal working example](minimal.html) could look like this:
   </body>
 </html>
 ```
+
+A larger practical example can be found in this repos github page: https://rasmusfonseca.github.io/D3Matrix/
