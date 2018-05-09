@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>D3Matrix</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <!--<link rel="stylesheet" href="/D3Matrix/assets/css/style.css?v=4210bbc49fdf44dfa09d35a73742b5efd736b7d4">-->
+    <link rel="stylesheet" href="style.css">
+
+    <script src="jscolor.js"></script>
+    <script src="d3.js"></script>
+    <script src="d3matrix.js"></script>
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">D3Matrix</h1>
+      
+        <a href="https://github.com/RasmusFonseca/D3Matrix" class="btn">View on GitHub</a>
+      
+      
+    </section>
+
+    <section class="main-content">
+
+      <h3>Paste a tab/space/comma-separated matrix into the textfield below:</h3>
+      <textarea rows="6" cols="80" id="inputArea">
+0.33 0.17 -0.45 0.33 0.33 0.20 -0.00 -0.16 0.29 -0.06
+0.18 0.03 0.31 0.32 -0.46 -0.08 -0.09 -0.42 -0.27 0.02
+0.49 -0.40 0.34 -0.10 0.47 -0.05 -0.22 0.16 0.32 -0.35
+0.22 0.04 0.46 -0.07 -0.24 0.41 -0.50 -0.13 -0.04 -0.30
+0.29 0.38 -0.33 -0.10 0.03 0.42 -0.07 -0.15 0.13 -0.22
+0.13 0.29 -0.37 0.11 0.48 -0.46 0.45 0.39 -0.37 -0.02
+-0.33 0.49 -0.07 0.40 0.22 -0.21 -0.03 0.49 -0.00 0.26
+-0.05 0.21 0.16 -0.07 -0.22 -0.33 0.04 -0.19 0.40 0.09
+-0.19 0.05 -0.48 0.44 -0.45 0.41 -0.48 -0.46 -0.02 -0.15
+-0.15 -0.45 0.39 -0.02 0.15 -0.15 -0.34 -0.30 -0.21 -0.05</textarea>
+      
+      <h3>View the matrix rendered as svg:</h3>
+      <div id="canvasDiv"></div>
+      <script language="javascript">
+        var d3m = initD3Matrix("canvasDiv", 800 );
+        d3m.circles = false;
+
+        d3.select("#inputArea")
+          .on("input", function(){ 
+            var rawData = d3.select("#inputArea").node().value;
+            d3m.update(rawData);
+          });
+
+        d3.select(window)
+          .on("load", function(){ 
+            var rawData = d3.select("#inputArea").node().value;
+            d3m.update(rawData);
+           });
+      </script>
+
+      <a id="downloadButton" href-lang='image/svg+xml' href='' download>Download SVG</a>
+      <script language="javascript">
+        d3.select("#downloadButton")
+          .on("mouseover", function(){
+            var svgString = d3m.svg.node().parentNode.innerHTML;
+            this.href="data:image/svg+xml;utf-8,"+svgString;
+          });
+      </script>
+
+      
+      <h3>Advanced settings:</h3>
+      <p>
+        <label for="colorOffsetSpinner">Color offset</label>
+        <input type="number" min="1" max="99" step="1" value="50" id="colorOffsetSpinner" />
+        <script language="javascript">
+          d3.select("#colorOffsetSpinner")
+            .on("input", function(){ 
+              var spinnerVal = this.value;
+              d3m.midOff = spinnerVal/100;
+              d3m.update();
+            });
+        </script>
+      </p>
+        
+
+      <p>
+        <label for="minColorInput">Min. color</label>
+        <input id="minColorInput" class="jscolor" value="#4A569D" style="width:100px">
+        <script language="javascript">
+          d3.select("#minColorInput")
+            .on("change", function(){ 
+              var minColVal = this.value;
+              d3m.minCol = "#"+minColVal;
+              d3m.update();
+              console.log("Min input");
+            });
+        </script>
+      </p>
+
+      <p>
+        <label for="maxColorInput">Max. color</label>
+        <input id="maxColorInput" class="jscolor" value="#DC2424" style="width:100px">
+        <script language="javascript">
+          d3.select("#maxColorInput")
+            .on("change", function(){ 
+              var maxColVal = this.value;
+              d3m.maxCol = "#"+maxColVal;
+              d3m.update();
+            });
+        </script>
+      </p>
+
+
+
+      <footer class="site-footer">
+        
+          <span class="site-footer-owner"><a href="https://github.com/RasmusFonseca/D3Matrix">D3Matrix</a> is maintained by <a href="https://github.com/RasmusFonseca">RasmusFonseca</a>.</span>
+        
+        <span class="site-footer-credits">Hosted by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+      </footer>
+    </section>
+
+    
+  </body>
+</html>
+

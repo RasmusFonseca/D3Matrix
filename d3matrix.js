@@ -7,6 +7,8 @@ function initD3Matrix(canvasDivId, width){
     midCol  : "white",
     maxCol  : "#DC2424",
     midOff  : 0.5,
+    circles : true,
+    grid    : false,
     svg     : d3.select("#"+canvasDivId).append("svg"),
 
     update : function(rawData){
@@ -54,33 +56,89 @@ function initD3Matrix(canvasDivId, width){
         .domain([-absMax, -absMax*d3m.midOff, 0, absMax*d3m.midOff, absMax])
         .range([cellWidth/2, cellWidth/4, 0, cellWidth/4, cellWidth/2]);
     
+      if (d3m.circles){
+        //Create/update/delete circles accordingly
+        var circles = d3m.svg
+          .selectAll("circle")
+          .data(data1d, function(d){return d["row"]+","+d["col"]});
 
-      //Create/update/delete circles accordingly
-      var circles = d3m.svg
-        .selectAll("circle")
-        .data(data1d, function(d){return d["row"]+","+d["col"]});
+        //Entering set
+        circles.enter()
+          .append("circle")
+          .attr("cx", function(d){ return d["col"]*cellWidth+cellWidth/2; })
+          .attr("cy", function(d){ return d["row"]*cellWidth+cellWidth/2; })
+          .attr("r", function(d){ return radScale(d["val"]); })
+          //.attr("r", function(d){ return Math.abs(d["val"]*cellWidth/(2*absMax)); })
+          .attr("fill", function(d){ return colScale(d["val"]); });
 
-      //Entering set
-      circles.enter()
-        .append("circle")
-        .attr("cx", function(d){ return d["col"]*cellWidth+cellWidth/2; })
-        .attr("cy", function(d){ return d["row"]*cellWidth+cellWidth/2; })
-        .attr("r", function(d){ return radScale(d["val"]); })
-        //.attr("r", function(d){ return Math.abs(d["val"]*cellWidth/(2*absMax)); })
-        .attr("fill", function(d){ return colScale(d["val"]); });
+        //Update
+        circles.transition()
+          .attr("cx", function(d){ return d["col"]*cellWidth+cellWidth/2; })
+          .attr("cy", function(d){ return d["row"]*cellWidth+cellWidth/2; })
+          .attr("r", function(d){ return radScale(d["val"]); })
+          .attr("fill", function(d){ return colScale(d["val"]); });
 
-      //Update
-      circles.transition()
-        .attr("cx", function(d){ return d["col"]*cellWidth+cellWidth/2; })
-        .attr("cy", function(d){ return d["row"]*cellWidth+cellWidth/2; })
-        .attr("r", function(d){ return radScale(d["val"]); })
-        .attr("fill", function(d){ return colScale(d["val"]); });
+        //Exiting
+        circles.exit()
+          .transition()
+          .attr("r", 0)
+          .remove();
 
-      //Exiting
-      circles.exit()
-        .transition()
-        .attr("r", 0)
-        .remove();
+      } else {
+
+        //Create/update/delete rectangles accordingly
+        var rects = d3m.svg
+          .selectAll("rect.data")
+          .data(data1d, function(d){return d["row"]+","+d["col"]});
+
+        //Entering set
+        rects.enter()
+          .append("rect")
+          .attr("class", "data")
+          .attr("x", function(d){ return d["col"]*cellWidth; })
+          .attr("y", function(d){ return d["row"]*cellWidth; })
+          .attr("width", cellWidth)
+          .attr("height", cellWidth)
+          .attr("fill", function(d){ return colScale(d["val"]); });
+
+        //Update
+        rects.transition()
+          .attr("x", function(d){ return d["col"]*cellWidth; })
+          .attr("y", function(d){ return d["row"]*cellWidth; })
+          .attr("width", cellWidth)
+          .attr("height", cellWidth)
+          .attr("fill", function(d){ return colScale(d["val"]); });
+
+        //Exiting
+        rects.exit().remove();
+      }
+
+      if( d3m.grid ){
+        var squares = d3m.svg.append("g").selectAll("rect")
+          .data(data1d, function(d){return d["row"]+","+d["col"]});
+
+        squares.enter()
+          .append("rect")
+          .attr("x", function(d){return d["col"]*cellWidth;})
+          .attr("y", function(d){return d["row"]*cellWidth;})
+          .attr("width", cellWidth)
+          .attr("height", cellWidth)
+          .style("stroke", "gray")
+          .style("fill", "none");
+
+        squares
+          .transition()
+          .attr("x", function(d){return d["col"]*cellWidth;})
+          .attr("y", function(d){return d["row"]*cellWidth;})
+          .attr("width", cellWidth)
+          .attr("height", cellWidth)
+          .style("stroke", "gray")
+          .style("fill", "none");
+
+        squares.exit()
+          .remove();
+
+      }
     }
   };
 
